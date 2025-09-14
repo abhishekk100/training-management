@@ -216,7 +216,7 @@ const mark = async () => {
     traineeId: form.value.traineeId,
     batchId: form.value.batchId,
     attendanceDate: formatDateTime(form.value.attendanceDate || new Date(), 'yyyy-MM-dd'),
-    status: form.value.status,
+    status: form.value.status?.trim(),
   }
   const res = await api.post('/attendance/create', payload)
   if (res.data?.success) {

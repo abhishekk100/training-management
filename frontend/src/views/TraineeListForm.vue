@@ -64,7 +64,7 @@
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">Email</label>
-          <InputText v-model="form.email" placeholder="Enter a email" class="w-full" />
+          <InputText v-model="form.email" @input="validateEmail" placeholder="Enter a email" class="w-full" />
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">Batch</label>
@@ -116,6 +116,7 @@ import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import Select from 'primevue/select'
+import { isNotEmpty, isValidEmail } from '@/utils/dateUtil.ts'
 
 interface Trainee {
   id: number | null
@@ -201,7 +202,7 @@ const resetForm = () => {
 }
 
 const save = async () => {
-  if (!form.value.name || !form.value.email || !form.value.batchId) {
+  if (!isNotEmpty(form.value.name) || !isNotEmpty(form.value.email) || !form.value.batchId) {
     errorMessage.value = 'Please fill all required fields'
     return
   }
@@ -238,6 +239,10 @@ const deleteTrainees = async (id: number) => {
   } else {
     alert('Failed: ' + message)
   }
+}
+
+const validateEmail = () => {
+  errorMessage.value = isValidEmail(form.value.email) ? "" : "Please enter a valid email"
 }
 
 onMounted(async () => {

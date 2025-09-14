@@ -16,3 +16,10 @@ export const formatDateTime = (date: Date, format: string = 'yyyy-MM-dd HH:mm:ss
     .replace('mm', MM)
     .replace('ss', SS)
 }
+export function isNotEmpty(value: string): boolean {
+  return value.trim().length > 0
+}
+export function isValidEmail(value: string): boolean {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return isNotEmpty(value) && regex.test(value)
+}

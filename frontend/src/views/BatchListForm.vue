@@ -214,7 +214,7 @@ import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import Select from 'primevue/select'
 import DatePicker from 'primevue/datepicker'
-import { formatDateTime } from '@/utils/dateUtil.ts'
+import { formatDateTime, isNotEmpty } from '@/utils/dateUtil.ts'
 interface Course {
   id: number | null
   name: string
@@ -379,7 +379,7 @@ const resetForm = () => {
 }
 
 const save = async () => {
-  if (!form.value.courseId || !form.value.location) {
+  if (!form.value.courseId || !isNotEmpty(form.value.location)) {
     errorMessage.value = 'Please fill all required fields'
     return
   }
@@ -399,12 +399,12 @@ const save = async () => {
 
   const payload: Batch = {
     id: editingId.value ?? null,
-    name: form.value.name,
+    name: form.value.name?.trim(),
     courseId: form.value.courseId,
     courseName: '',
-    location: form.value.location,
+    location: form.value.location?.trim(),
     trainerId: form.value.trainerId,
-    trainerName: form.value.trainerName,
+    trainerName: form.value.trainerName?.trim(),
     scheduledDate: formattedDate,
     timeSlot: `${fromTimeStr}-${toTimeStr}`,
   }

@@ -178,7 +178,7 @@ import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import DatePicker from 'primevue/datepicker'
 import FloatLabel from 'primevue/floatlabel'
-import { formatDateTime } from '@/utils/dateUtil.ts'
+import { formatDateTime, isNotEmpty } from '@/utils/dateUtil.ts'
 interface Trainer {
   id?: number
   name: string
@@ -247,15 +247,19 @@ const closeModal = () => {
 }
 
 const save = async () => {
-  if (!form.value.name || !form.value.location) {
+  if (! isNotEmpty(form.value.name) || !isNotEmpty(form.value.location)) {
     errorMessage.value = 'Name and Location are required'
     return
   }
+  const payload = { 
+    name: form.value.name?.trim(), 
+    location: form.value.location?.trim() 
+}
   if (isEdit.value && trainerId.value) {
-    await api.put(`/trainers/update/${trainerId.value}`, form.value)
+    await api.put(`/trainers/update/${trainerId.value}`, payload)
     alert('Trainer updated')
   } else {
-    await api.post('/trainers/create', form.value)
+    await api.post('/trainers/create', payload)
     alert('Trainer created')
   }
   closeModal()

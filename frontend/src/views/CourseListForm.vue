@@ -92,6 +92,7 @@ import Column from 'primevue/column'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
+import { isNotEmpty } from '@/utils/dateUtil.ts'
 
 interface Course {
   id: number | null
@@ -146,14 +147,14 @@ const resetForm = () => {
 
 
 const save = async () => {
-  if (!form.value.name) {
+  if (!isNotEmpty(form.value.name)) {
     errorMessage.value = 'Course name is required'
     return
   }
     const payload = {
         id:null,
-        name: form.value.name,
-        description: form.value.description,
+        name: form.value.name?.trim(),
+        description: form.value.description?.trim(),
     }
     let res = null
     if (isEdit.value && editingId.value) {
