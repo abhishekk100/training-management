@@ -53,36 +53,9 @@ type Availability = { trainerName: string; availableDays: number; occupiedDays: 
 type Enrollment = { label: string; traineeCount: number }
 type Trend = { date: string; presentCount: number }
 
-const availability = ref<Availability[]>([
-{ trainerName: 'Alice', availableDays: 18, occupiedDays: 12 },
-{ trainerName: 'Bob', availableDays: 15, occupiedDays: 15 },
-{ trainerName: 'Charlie', availableDays: 20, occupiedDays: 10 }
-])
-const enrollments = ref<Enrollment[]>([
-{ label: 'Batch A', traineeCount: 25 },
-{ label: 'Batch B', traineeCount: 30 },
-{ label: 'Batch C', traineeCount: 20 },
-{ label: 'Batch D', traineeCount: 28 },
-{ label: 'Batch E', traineeCount: 22 },
-{ label: 'Batch F', traineeCount: 26 }
-])
-const trends = ref<Trend[]>([
-{ date: '2024-10-01', presentCount: 22 },
-{ date: '2024-10-02', presentCount: 25 },
-{ date: '2024-10-03', presentCount: 20 },
-{ date: '2024-10-04', presentCount: 27 },
-{ date: '2024-10-05', presentCount: 30 },
-{ date: '2024-10-06', presentCount: 24 },
-{ date: '2024-10-07', presentCount: 28 },
-{ date: '2024-10-08', presentCount: 26 },
-{ date: '2024-10-09', presentCount: 29 },
-{ date: '2024-10-10', presentCount: 23 },
-{ date: '2024-10-11', presentCount: 31 },
-{ date: '2024-10-12', presentCount: 27 },
-{ date: '2024-10-13', presentCount: 25 },
-{ date: '2024-10-14', presentCount: 30 },
-{ date: '2024-10-15', presentCount: 28 }
-])
+const availability = ref<Availability[]>([])
+const enrollments = ref<Enrollment[]>([])
+const trends = ref<Trend[]>([])
 
 const availChart = ref<HTMLCanvasElement | null>(null)
 const enrollChart = ref<HTMLCanvasElement | null>(null)

@@ -126,7 +126,7 @@ const openModal = (course?: Course) => {
   if (course) {
     isEdit.value = true
     editingId.value = course.id
-    form.value.name = course.description
+    form.value.name = course.name
     form.value.description = course.description
   } else {
     isEdit.value = false

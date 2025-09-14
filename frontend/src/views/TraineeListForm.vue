@@ -78,14 +78,6 @@
             editable
             showClear
           >
-            <!-- <template #option="slotProps">
-              <div class="flex flex-col">
-                <span>{{ slotProps.option.name }}</span>
-                <span class="text-xs text-gray-500">
-                  {{ slotProps.option.description }}
-                </span>
-              </div>
-            </template> -->
           </Select>
         </div>
       </div>

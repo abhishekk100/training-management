@@ -108,7 +108,7 @@ interface Batch {
 const batches = ref<Batch[]>([]);
 
 const loadBatches = async () => {
-    const res = await api.get('/batches/summary') // Replace with actual trainer ID
+    const res = await api.get('/batches/summary')
     const { data, success, message } = res.data
     
     if (success) {

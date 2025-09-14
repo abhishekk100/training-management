@@ -243,6 +243,7 @@ interface Availability {
   availableDate: string
   trainerId: number
   trainerName: string
+  status: string
 }
 const batches = ref<Batch[]>([])
 const courses = ref<Course[]>([])
@@ -341,6 +342,11 @@ const onSelectAavailability = (value: number) => {
   const selected = trainers.value
     .find((t) => t.id === form.value.trainerId)
     ?.availability.find((a: Availability) => a.id === value)
+    if (selected?.status?.toLowerCase() === "no") {
+      alert("Trainer is already assigned for this time slot");
+      return;
+    }
+
   avail.value.availableDate = selected ? new Date(selected.availableDate) : null
   avail.value.fromTime = selected
     ? new Date('1970-01-01T' + selected.timeSlot?.split('-')[0] + ':00')
@@ -352,9 +358,9 @@ const onSelectAavailability = (value: number) => {
 const trainerAvailabilities = computed(() => {
   const trainer = trainers.value.find((t) => t.id === form.value.trainerId)
   return trainer
-    ? trainer.availability.map((a) => ({
+    ? trainer.availability?.filter(a => a.status?.toLowerCase() === "yes" )?.map((a) => ({
         ...a,
-        label: `${a.availableDate} (${a.timeSlot})`, // ✅ combined label
+        label: `${a.availableDate} (${a.timeSlot})`,
       }))
     : []
 })
