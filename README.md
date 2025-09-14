@@ -30,6 +30,9 @@ training_management_system/
 
 1. Copy the example environment file:
 
+- Create a copy of .env.example to a .env file and add following changes
+- Keep the username and password same for the database and backend spring boot configuration
+
 cp .env.example .env
 # Database root (internal use)
 MARIADB_ROOT_PASSWORD=your_root_password
@@ -44,6 +47,7 @@ SPRING_DATASOURCE_URL=jdbc:mariadb://db:3306/training_management
 SPRING_DATASOURCE_USERNAME=training_user
 SPRING_DATASOURCE_PASSWORD=training_pass
 
+# Launch the Docker Desktop and Run the command from the root dir
 docker-compose up --build
 
 | Service  | URL/Port                                                      |
