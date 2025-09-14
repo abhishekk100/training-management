@@ -44,13 +44,16 @@ CREATE TABLE IF NOT EXISTS `batch` (
   `time_slot` varchar(50) NOT NULL,
   `location` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `trainer_availability_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKea6wjj8co7qtkcek0at693sh5` (`name`),
   KEY `FKlyo26rvg0hs090cwqxgxrw0xn` (`course_id`),
   KEY `FKhfalmemnf4c9yh2fq9et869nx` (`trainer_id`),
+  KEY `FKdh96pa8hn5c1f2g4fxoo9tl4e` (`trainer_availability_id`),
+  CONSTRAINT `FKdh96pa8hn5c1f2g4fxoo9tl4e` FOREIGN KEY (`trainer_availability_id`) REFERENCES `trainer_availability` (`id`),
   CONSTRAINT `FKhfalmemnf4c9yh2fq9et869nx` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`id`),
   CONSTRAINT `FKlyo26rvg0hs090cwqxgxrw0xn` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- Data exporting was unselected.
 
@@ -86,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `trainer` (
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK3vw0xwsb15ggfkna7fn6f6yam` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- Data exporting was unselected.
 
@@ -100,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `trainer_availability` (
   PRIMARY KEY (`id`),
   KEY `FK5lrsplac1x3htntfvw5jntggn` (`trainer_id`),
   CONSTRAINT `FK5lrsplac1x3htntfvw5jntggn` FOREIGN KEY (`trainer_id`) REFERENCES `trainer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- Data exporting was unselected.
 

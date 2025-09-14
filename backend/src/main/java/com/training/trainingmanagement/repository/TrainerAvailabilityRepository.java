@@ -12,7 +12,7 @@ public interface TrainerAvailabilityRepository extends JpaRepository<TrainerAvai
 	List<TrainerAvailability> findByTrainerId(Integer trainerId);
 
     // Matches: TrainerAvailability.trainer.location, TrainerAvailability.availableDate, TrainerAvailability.timeSlot
-    Optional<TrainerAvailability> findFirstByTrainer_LocationAndAvailableDateAndTimeSlot(
-            String location,
+    Optional<TrainerAvailability> findFirstByTrainer_IdAndTrainer_LocationAndAvailableDateAndTimeSlot(
+            Integer trainerId, String location,
             LocalDate availableDate,
             String timeSlot);}

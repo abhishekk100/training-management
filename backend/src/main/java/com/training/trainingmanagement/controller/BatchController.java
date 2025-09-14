@@ -6,6 +6,7 @@ import com.training.trainingmanagement.dto.TraineeDTO;
 import com.training.trainingmanagement.entity.Batch;
 import com.training.trainingmanagement.entity.Course;
 import com.training.trainingmanagement.entity.Trainer;
+import com.training.trainingmanagement.entity.TrainerAvailability;
 import com.training.trainingmanagement.response.ApiResponse;
 import com.training.trainingmanagement.service.AttendanceService;
 import com.training.trainingmanagement.service.BatchService;
@@ -87,16 +88,23 @@ public class BatchController {
 			return ResponseEntity.status(404)
 					.body(new ApiResponse<>(false, "Course not found with id " + bDto.getCourseId(), null));
 		}
-		Trainer trainer = trainerService.getTrainerById(bDto.getTrainerId()).orElse(null); 
-		if (trainer == null) {
-			return ResponseEntity.status(404)
-					.body(new ApiResponse<>(false, "Trainer not found with id " + bDto.getTrainerId(), null));
-		}
-		// find & reserve trainer availability
-		trainerService.findAndReserveAvailability(bDto.getLocation(),
-				bDto.getScheduledDate(), bDto.getTimeSlot());
+		Trainer trainer = trainerService.getTrainerById(bDto.getTrainerId())
+		        .orElse(null);
 
-		// Save batch with assigned trainer
+		if (trainer == null) {
+		    return ResponseEntity.status(404)
+		            .body(new ApiResponse<>(false, "Trainer not found with id " + bDto.getTrainerId(), null));
+		}
+
+		// find & reserve trainer availability
+		TrainerAvailability reservedAvailability = trainerService.findAndReserveAvailability(
+		        trainer.getId(),
+		        bDto.getLocation(),
+		        bDto.getScheduledDate(),
+		        bDto.getTimeSlot()
+		);
+
+		// Save batch with assigned trainer and availability
 		Batch batch = new Batch();
 		batch.setName(bDto.getName());
 		batch.setCourse(course);
@@ -104,13 +112,15 @@ public class BatchController {
 		batch.setScheduledDate(bDto.getScheduledDate());
 		batch.setTimeSlot(bDto.getTimeSlot());
 		batch.setTrainer(trainer);
+		batch.setTrainerAvailability(reservedAvailability);
 
 		// update
-		if(bDto.getId() != null && bDto.getId() != 0) {
-			batch.setId(bDto.getId());
+		if (bDto.getId() != null && bDto.getId() != 0) {
+		    batch.setId(bDto.getId());
 		}
-		
+
 		Batch saved = batchService.saveBatch(batch);
+
 		BatchDTO dto = mapToDTO(saved);
 		return ResponseEntity.status(200).body(new ApiResponse<>(true, "Batch saved and trainer auto-assigned", dto));
 	}
@@ -128,7 +138,9 @@ public class BatchController {
 		dto.setLocation(batch.getLocation());
 		dto.setScheduledDate(batch.getScheduledDate());
 		dto.setTimeSlot(batch.getTimeSlot());
-
+		if(batch.getTrainerAvailability() != null) {			
+			dto.setAvailabilityId(batch.getTrainerAvailability().getId());
+		}
 		if (batch.getTrainer() != null) {
 			dto.setTrainerId(batch.getTrainer().getId());
 			dto.setTrainerName(batch.getTrainer().getName());

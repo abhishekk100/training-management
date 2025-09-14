@@ -1,7 +1,9 @@
 package com.training.trainingmanagement.service;
 
 import com.training.trainingmanagement.entity.Batch;
+import com.training.trainingmanagement.entity.TrainerAvailability;
 import com.training.trainingmanagement.repository.BatchRepository;
+import com.training.trainingmanagement.repository.TrainerAvailabilityRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -14,9 +16,12 @@ import java.util.Optional;
 public class BatchService {
 
     private final BatchRepository batchRepository;
-
-    public BatchService(BatchRepository batchRepository) {
+    private final TrainerAvailabilityRepository availabilityRepository;
+    
+    
+    public BatchService(BatchRepository batchRepository, TrainerAvailabilityRepository availabilityRepository) {
         this.batchRepository = batchRepository;
+        this.availabilityRepository = availabilityRepository;
     }
 
     public List<Batch> getAllBatches() {
@@ -34,6 +39,18 @@ public class BatchService {
 
     @Transactional
     public void deleteBatch(Integer id) {
-        batchRepository.deleteById(id);
+        Batch batch = batchRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Batch not found with id " + id));
+
+        // Restore trainer availability
+        TrainerAvailability availability = batch.getTrainerAvailability();
+        if (availability != null) {
+            availability.setStatus("Yes"); // free up the slot
+            availabilityRepository.saveAndFlush(availability);
+        }
+
+        // Delete the batch
+        batchRepository.delete(batch);
     }
+
 }

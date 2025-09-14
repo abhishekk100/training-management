@@ -43,17 +43,15 @@ public class TrainerService {
 	}
 
 	@Transactional
-	public void findAndReserveAvailability(String location, LocalDate date, String timeSlot) {
+	public TrainerAvailability findAndReserveAvailability(Integer trainerId, String location, LocalDate date, String timeSlot) {
 
 	    TrainerAvailability availability = availabilityRepository
-	            .findFirstByTrainer_LocationAndAvailableDateAndTimeSlot(location, date, timeSlot)
-	            .orElseThrow(() -> new RuntimeException("No available slot found for trainer"));
-
-	    if ("No".equalsIgnoreCase(availability.getStatus())) {
-	    	return;
-	    }
-	    availability.setStatus("No");
-	    availabilityRepository.save(availability);
+	            .findFirstByTrainer_IdAndTrainer_LocationAndAvailableDateAndTimeSlot(
+	                    trainerId, location, date, timeSlot)
+	            .orElseThrow(() -> new RuntimeException("No available slot found for trainer " + trainerId));
+	    availability.setStatus("No"); // Mark reserved
+	    return availabilityRepository.saveAndFlush(availability);
 	}
+
 
 }

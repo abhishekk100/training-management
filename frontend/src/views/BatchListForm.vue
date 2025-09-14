@@ -230,6 +230,7 @@ interface Batch {
   trainerName: string | ''
   scheduledDate: string | ''
   timeSlot: string | ''
+  availabilityId: number | null
 }
 interface Trainer {
   id?: number
@@ -310,12 +311,12 @@ const openModal = (batch?: Batch) => {
     form.value.location = batch.location
     form.value.trainerId = batch.trainerId !== undefined ? batch.trainerId : null
     form.value.trainerName = batch.trainerName !== undefined ? batch.trainerName : ''
+    form.value.availabilityId = batch.availabilityId
     avail.value = {
       availableDate: new Date(batch.scheduledDate),
       fromTime: new Date('1970-01-01T' + batch.timeSlot?.split('-')[0] + ':00'),
       toTime: new Date('1970-01-01T' + batch.timeSlot?.split('-')[1] + ':00'),
     }
-    // isTrainerSelected.value = !!batch.trainerId
   } else {
     isEdit.value = false
     isTrainerSelected.value = false
@@ -339,9 +340,7 @@ const onSelectTrainer = (value: number) => {
   avail.value = { availableDate: null, fromTime: null, toTime: null }
 }
 const onSelectAavailability = (value: number) => {
-  const selected = trainers.value
-    .find((t) => t.id === form.value.trainerId)
-    ?.availability.find((a: Availability) => a.id === value)
+  const selected = trainerAvailabilities.value?.find((a: Availability) => a.id === value)
     if (selected?.status?.toLowerCase() === "no") {
       alert("Trainer is already assigned for this time slot");
       return;
@@ -413,6 +412,7 @@ const save = async () => {
     trainerName: form.value.trainerName?.trim(),
     scheduledDate: formattedDate,
     timeSlot: `${fromTimeStr}-${toTimeStr}`,
+    availabilityId: form.value.availabilityId
   }
 
   const res = await api.post('/batches/create', payload)
@@ -422,6 +422,7 @@ const save = async () => {
     alert(isEdit.value ? 'Batch updated' : 'Batch created')
     closeModal()
     await load()
+    await loadTrainer();
   } else {
     alert('Failed: ' + message)
   }
@@ -434,6 +435,7 @@ const deleteBatch = async (id: number) => {
   if (success) {
     alert(message || 'Batch deleted')
     await load()
+    await loadTrainer()
   } else {
     alert('Failed: ' + message)
   }

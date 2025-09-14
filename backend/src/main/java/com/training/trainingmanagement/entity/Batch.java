@@ -38,6 +38,11 @@ public class Batch {
 	@JsonBackReference
 	private Trainer trainer;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trainer_availability_id", nullable = false)
+	@JsonBackReference
+    private TrainerAvailability trainerAvailability;
+	  
 	@OneToMany(mappedBy = "batch", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Trainee> trainees;

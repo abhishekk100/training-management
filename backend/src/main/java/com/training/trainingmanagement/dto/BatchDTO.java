@@ -15,6 +15,7 @@ public class BatchDTO {
     private String timeSlot;
     private Integer trainerId;
     private String trainerName;
+    private Integer availabilityId;
     private List<TraineeDTO> trainees;
     private List<AttendanceDTO> attendance;
 }

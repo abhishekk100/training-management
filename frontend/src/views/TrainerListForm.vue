@@ -157,6 +157,7 @@
                 icon="pi pi-trash"
                 class="p-button-sm p-button-danger"
                 @click="removeAvailability(slotProps.data.id)"
+                :disabled="slotProps.data.status?.toLowerCase() === 'no'"
               />
             </template>
           </Column>
