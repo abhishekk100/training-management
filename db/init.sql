@@ -16,12 +16,10 @@
 
 
 -- Dumping database structure for training_management
-DROP DATABASE IF EXISTS `training_management`;
 CREATE DATABASE IF NOT EXISTS `training_management` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci */;
 USE `training_management`;
 
 -- Dumping structure for table training_management.attendance
-DROP TABLE IF EXISTS `attendance`;
 CREATE TABLE IF NOT EXISTS `attendance` (
   `attendance_date` date DEFAULT NULL,
   `batch_id` int(11) NOT NULL,
@@ -38,7 +36,6 @@ CREATE TABLE IF NOT EXISTS `attendance` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table training_management.batch
-DROP TABLE IF EXISTS `batch`;
 CREATE TABLE IF NOT EXISTS `batch` (
   `course_id` int(11) NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -58,7 +55,6 @@ CREATE TABLE IF NOT EXISTS `batch` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table training_management.course
-DROP TABLE IF EXISTS `course`;
 CREATE TABLE IF NOT EXISTS `course` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
@@ -70,7 +66,6 @@ CREATE TABLE IF NOT EXISTS `course` (
 -- Data exporting was unselected.
 
 -- Dumping structure for table training_management.trainee
-DROP TABLE IF EXISTS `trainee`;
 CREATE TABLE IF NOT EXISTS `trainee` (
   `batch_id` int(11) NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -80,24 +75,22 @@ CREATE TABLE IF NOT EXISTS `trainee` (
   UNIQUE KEY `UK43v6t1pm0lbc4h9ahde6cm8v6` (`email`),
   KEY `FKn9415n9215mb3hgn8nuxu4ewn` (`batch_id`),
   CONSTRAINT `FKn9415n9215mb3hgn8nuxu4ewn` FOREIGN KEY (`batch_id`) REFERENCES `batch` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- Data exporting was unselected.
 
 -- Dumping structure for table training_management.trainer
-DROP TABLE IF EXISTS `trainer`;
 CREATE TABLE IF NOT EXISTS `trainer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `location` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK3vw0xwsb15ggfkna7fn6f6yam` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 -- Data exporting was unselected.
 
 -- Dumping structure for table training_management.trainer_availability
-DROP TABLE IF EXISTS `trainer_availability`;
 CREATE TABLE IF NOT EXISTS `trainer_availability` (
   `available_date` date NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
