@@ -20,7 +20,7 @@
     <div class="flex flex-1 overflow-hidden">
       <!-- Sidebar -->
       <aside 
-        :class="[
+        :class="['z-10',
           'bg-gray-800 text-gray-100 w-64 md:w-52 p-4 overflow-y-auto fixed md:static h-full transform transition-transform duration-300',
           sidebarOpen ? 'translate-x-0' : '-translate-x-full',
           'md:translate-x-0'
